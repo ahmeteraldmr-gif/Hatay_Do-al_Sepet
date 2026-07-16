@@ -59,6 +59,11 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Aromaterapi Serisi', 'emoji' => '🌸', 'description' => 'Bitkisel özler ve doğal uçucu yağlarla zenginleştirilmiş özel kokulu sabunlar.']
         );
 
+        $catKampanya = Category::updateOrCreate(
+            ['slug' => 'kampanyalar'],
+            ['name' => 'Kampanyalar', 'emoji' => '🎁', 'description' => 'Özel indirimli doğal setler ve dönemsel kampanyalı ürünlerimiz.']
+        );
+
         // Delete all existing products first to clean up old photos
         Product::query()->delete();
 
@@ -74,6 +79,18 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Temiz cilde dairesel hareketlerle masaj yaparak uygulayın.',
                 'price' => 250.00,
                 'image_path' => 'assets/cilt_bakim_kremi.jpg',
+                'in_stock' => true
+            ],
+            [
+                'category_id' => $catKampanya->id,
+                'name' => 'M. Çakır Can - Doğal Güzellik Seti',
+                'slug' => 'm-cakir-can-dogal-guzellik-seti',
+                'description' => 'M. Çakır Can el yapımı zeytinyağı sabunu, doğal cilt bakım kremi, bitkisel saç bakım yağı ve el yapımı şampuandan oluşan, kargo dahil avantajlı fiyata sahip özel bakım seti.',
+                'ingredients' => 'Doğal sabun, cilt bakım kremi, saç bakım yağı, zeytinyağlı şampuan.',
+                'benefits' => 'Ücretsiz Kargo. Komple Saç ve Cilt Bakımı. %100 Doğal İçerikli Özel Avantajlı Set.',
+                'usage' => 'Ürünlerin üzerinde belirtilen günlük kullanım talimatlarına göre uygulayınız.',
+                'price' => 1000.00,
+                'image_path' => 'assets/guzellik_seti.jpg',
                 'in_stock' => true
             ],
             [
