@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'in_stock' => true
             ],
             [
-                'category_id' => $catOzel->id,
+                'category_id' => $catZeytin->id,
                 'name' => 'M. Çakır Can - El Yapımı Lavanta & Aloe Vera Şampuanı',
                 'slug' => 'm-cakir-can-el-yapimi-lavanta-aloe-vera-sampuani',
                 'description' => 'Zeytinyağı tabanlı, saf bitki özleri içeren cilde dost el yapımı lavanta ve aloe vera şampuanı.',
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 'in_stock' => true
             ],
             [
-                'category_id' => $catOzel->id,
+                'category_id' => $catZeytin->id,
                 'name' => 'M. Çakır Can - El Yapımı Yeşil Elma & Aloe Vera Şampuanı',
                 'slug' => 'm-cakir-can-el-yapimi-yesil-elma-aloe-vera-sampuani',
                 'description' => 'Yeşil elma ve aloe vera özleriyle zenginleştirilmiş, zeytinyağı tabanlı doğal el yapımı şampuan.',
