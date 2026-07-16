@@ -457,15 +457,109 @@ tr:last-child td {
     gap: 20px;
 }
 
-@media (max-width: 768px) {
+/* Mobile Toggle & Close Buttons */
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-dark);
+    cursor: pointer;
+    padding: 5px;
+    transition: var(--transition);
+}
+
+.sidebar-close {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 5px;
+    transition: var(--transition);
+}
+
+.sidebar-close:hover {
+    color: var(--white);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 999;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        height: 100vh;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar-brand {
+        justify-content: space-between;
+    }
+    
+    .sidebar-close {
+        display: block;
+    }
+    
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    .sidebar-overlay {
+        display: block;
+    }
+    
+    .admin-header {
+        padding: 0 20px;
+    }
+    
+    .admin-content {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
     .form-grid {
         grid-template-columns: 1fr;
     }
-    .admin-layout {
+    
+    .table-header {
+        padding: 15px;
         flex-direction: column;
-    }
-    .admin-sidebar {
-        width: 100%;
-        height: auto;
+        gap: 12px;
+        align-items: flex-start;
     }
 }

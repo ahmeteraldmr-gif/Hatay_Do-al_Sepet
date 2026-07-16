@@ -18,8 +18,13 @@
         <!-- Sidebar -->
         <aside class="admin-sidebar">
             <div class="sidebar-brand">
-                <i class="fa-solid fa-leaf"></i> 
-                {{ explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))[0] }}<span>Panel</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-leaf"></i> 
+                    {{ explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))[0] }}<span>Panel</span>
+                </div>
+                <button class="sidebar-close" id="sidebar-close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             
             <ul class="sidebar-menu">
@@ -76,8 +81,11 @@
         <div class="admin-main">
             <!-- Top Header -->
             <header class="admin-header">
-                <div>
-                    <h2 style="font-size: 20px; font-weight: 600;">@yield('title')</h2>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="sidebar-toggle" id="sidebar-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 style="font-size: 18px; font-weight: 600; margin: 0;">@yield('title')</h2>
                 </div>
                 <div class="admin-user">
                     <i class="fa-regular fa-circle-user" style="font-size: 20px;"></i>
@@ -105,6 +113,25 @@
         
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const closeBtn = document.getElementById('sidebar-close');
+            const sidebar = document.querySelector('.admin-sidebar');
+            const overlay = document.createElement('div');
+            overlay.className = 'sidebar-overlay';
+            document.body.appendChild(overlay);
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+
+            if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+            if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>
