@@ -26,7 +26,7 @@
 
             <!-- Ürün Izgarası -->
             <div class="products-grid">
-                @foreach(\App\Models\Product::with('category')->orderBy('in_stock', 'desc')->get() as $product)
+                @foreach(\App\Models\Product::with('category')->orderBy('name', 'asc')->get() as $product)
                     <div class="product-card product-card-item" data-category="{{ $product->category->slug }}">
                         @if(!$product->in_stock)
                             <div class="product-badge" style="background-color: #EF4444;">Tükendi</div>

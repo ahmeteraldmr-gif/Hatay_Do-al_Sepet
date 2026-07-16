@@ -59,7 +59,7 @@
             <p class="section-subtitle">En çok tercih edilen, cildinize sağlık katacak özel sabun çeşitlerimiz</p>
             
             <div class="products-grid">
-                @foreach(\App\Models\Product::with('category')->take(3)->get() as $product)
+                @foreach(\App\Models\Product::with('category')->orderBy('name', 'asc')->take(3)->get() as $product)
                     <div class="product-card">
                         @if($product->in_stock)
                             <div class="product-badge">Öne Çıkan</div>

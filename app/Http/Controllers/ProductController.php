@@ -19,8 +19,7 @@ class ProductController extends Controller
             }
         }
         
-        $products = $query->orderBy('in_stock', 'desc')
-                          ->orderBy('created_at', 'desc')
+        $products = $query->orderBy('name', 'asc')
                           ->paginate(9);
                           
         return view('products.index', compact('products'));
