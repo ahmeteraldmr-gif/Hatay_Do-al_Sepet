@@ -16,16 +16,16 @@
         <div class="login-card">
             <div class="login-header">
                 <div class="login-logo">
-                    {{ explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))[0] }}<span>{{ implode(' ', array_slice(explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet')), 1)) }}</span>
+                    🌿 {{ explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))[0] }}<span>{{ implode(' ', array_slice(explode(' ', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet')), 1)) }}</span>
                 </div>
                 <p>Yönetim Paneli Giriş Ekranı</p>
             </div>
             
             @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul style="list-style: none;">
+                <div class="alert alert-danger" style="background-color: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13.5px;">
+                    <ul style="list-style: none; margin: 0; padding: 0;">
                         @foreach($errors->all() as $error)
-                            <li><i class="fa-solid fa-triangle-exclamation"></i> {{ $error }}</li>
+                            <li><i class="fa-solid fa-triangle-exclamation" style="margin-right: 6px;"></i> {{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -35,23 +35,29 @@
                 @csrf
                 <div class="form-group">
                     <label for="email" class="form-label">E-Posta Adresi</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="admin@hataydogalsepet.com" required value="{{ old('email') }}">
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="admin@hataydogalsepet.com" required value="{{ old('email') }}">
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="password" class="form-label">Şifre</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required>
+                    </div>
                 </div>
                 
                 <div class="form-group" style="margin-top: 30px;">
-                    <button type="submit" class="btn-primary" style="width: 100%; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 15px; background-color: var(--primary);">
-                        Giriş Yap
+                    <button type="submit" class="btn-login">
+                        Giriş Yap <i class="fa-solid fa-right-to-bracket" style="margin-left: 6px;"></i>
                     </button>
                 </div>
             </form>
             
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="{{ route('home') }}" style="font-size: 13px; color: var(--text-muted); text-decoration: underline;"><i class="fa-solid fa-arrow-left"></i> Siteye Geri Dön</a>
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="{{ route('home') }}" style="font-size: 13.5px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: var(--transition);" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fa-solid fa-arrow-left" style="margin-right: 4px;"></i> Siteye Geri Dön</a>
             </div>
         </div>
     </div>
