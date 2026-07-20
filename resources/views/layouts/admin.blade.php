@@ -56,6 +56,11 @@
                         @endif
                     </a>
                 </li>
+                <li class="sidebar-item {{ request()->routeIs('admin.reviews*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.reviews') }}">
+                        <i class="fa-solid fa-comments"></i> Yorum Yönetimi
+                    </a>
+                </li>
                 <li class="sidebar-item {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                     <a href="{{ route('admin.settings') }}">
                         <i class="fa-solid fa-gears"></i> Site Ayarları

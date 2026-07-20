@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/urunler', [ProductController::class, 'index'])->name('products.index');
 Route::get('/urunler/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/urunler/{id}/yorum', [ProductController::class, 'storeReview'])->name('products.review.store');
 Route::get('/hikayemiz', [HomeController::class, 'about'])->name('about');
 Route::get('/iletisim', [HomeController::class, 'contact'])->name('contact');
 Route::post('/iletisim', [HomeController::class, 'contactSubmit'])->name('contact.submit');
@@ -43,6 +44,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
     Route::post('/messages/delete/{id}', [AdminController::class, 'messageDelete'])->name('messages.delete');
     Route::post('/messages/read/{id}', [AdminController::class, 'messageRead'])->name('messages.read');
+    
+    // Reviews Management
+    Route::get('/reviews', [AdminController::class, 'reviews'])->name('reviews');
+    Route::post('/reviews/delete/{id}', [AdminController::class, 'reviewDelete'])->name('reviews.delete');
     
     Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
     Route::post('/settings/update', [AdminController::class, 'settingsUpdate'])->name('settings.update');

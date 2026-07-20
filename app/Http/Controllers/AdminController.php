@@ -387,4 +387,22 @@ class AdminController extends Controller
 
         return redirect()->route('admin.messages')->with('success', 'Mesaj başarıyla silindi.');
     }
+
+    // List reviews/comments
+    public function reviews()
+    {
+        $reviews = \App\Models\Review::with('product')
+                                      ->orderBy('created_at', 'desc')
+                                      ->paginate(15);
+        return view('admin.reviews', compact('reviews'));
+    }
+
+    // Delete a review
+    public function reviewDelete($id)
+    {
+        $review = \App\Models\Review::findOrFail($id);
+        $review->delete();
+
+        return redirect()->route('admin.reviews')->with('success', 'Yorum başarıyla silindi.');
+    }
 }

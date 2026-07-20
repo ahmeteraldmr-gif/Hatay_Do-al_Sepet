@@ -49,11 +49,22 @@
             border: 1px solid rgba(74, 93, 78, 0.05);
         }
 
+        .reviews-section-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
         @media (max-width: 768px) {
             .product-detail-card {
                 grid-template-columns: 1fr;
                 padding: 20px;
                 gap: 24px;
+            }
+            .reviews-section-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
         }
     </style>
@@ -166,6 +177,112 @@
 
             </div>
 
+            <!-- --- REVIEWS SECTION --- -->
+            <div style="background-color: var(--color-white); border-radius: var(--border-radius); box-shadow: var(--shadow-md); padding: 40px; margin-top: 40px; border: 1px solid rgba(74, 93, 78, 0.05);">
+                <h3 style="font-family: var(--font-serif); font-size: 24px; color: var(--color-text); margin: 0 0 10px 0; border-bottom: 2px solid rgba(74, 93, 78, 0.05); padding-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-regular fa-comments" style="color: var(--color-primary);"></i> Müşteri Değerlendirmeleri
+                </h3>
+                
+                @if(session('success'))
+                    <div style="background-color: rgba(74, 93, 78, 0.08); color: var(--color-primary-dark); padding: 12px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; margin-bottom: 20px; border: 1px solid rgba(74, 93, 78, 0.15);">
+                        <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="reviews-section-grid">
+                    <!-- Left: Reviews List -->
+                    <div>
+                        @php
+                            $avgRating = $product->reviews->avg('rating') ?: 0;
+                            $totalReviews = $product->reviews->count();
+                        @endphp
+                        
+                        <div style="display: flex; align-items: center; gap: 15px; background-color: var(--color-bg); padding: 20px; border-radius: 12px; border: 1px solid rgba(74, 93, 78, 0.03); margin-bottom: 25px;">
+                            <div style="font-size: 40px; font-weight: 800; color: var(--color-primary-dark); line-height: 1;">
+                                {{ number_format($avgRating, 1) }}
+                            </div>
+                            <div>
+                                <div style="display: flex; gap: 2px; color: #FBBF24; font-size: 18px; margin-bottom: 4px;">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= round($avgRating))
+                                            <i class="fa-solid fa-star"></i>
+                                        @else
+                                            <i class="fa-regular fa-star" style="color: #D1D5DB;"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <span style="font-size: 13.5px; color: var(--color-text-light); font-weight: 600;">
+                                    {{ $totalReviews }} Müşteri Değerlendirmesi
+                                </span>
+                            </div>
+                        </div>
+
+                        <div style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
+                            @forelse($product->reviews as $review)
+                                <div style="border-bottom: 1px solid rgba(74, 93, 78, 0.08); padding: 18px 0; {{ $loop->last ? 'border-bottom: none; padding-bottom: 0;' : '' }}">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                        <strong style="color: var(--color-text); font-size: 15px;">{{ $review->name }}</strong>
+                                        <span style="font-size: 12px; color: var(--color-text-light);"><i class="fa-regular fa-clock"></i> {{ $review->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    
+                                    <div style="display: flex; gap: 2px; color: #FBBF24; font-size: 13px; margin-bottom: 10px;">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            @if($i <= $review->rating)
+                                                <i class="fa-solid fa-star"></i>
+                                            @else
+                                                <i class="fa-regular fa-star" style="color: #D1D5DB;"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    
+                                    <p style="font-size: 14px; color: var(--color-text-light); line-height: 1.6; margin: 0; white-space: pre-line;">{{ $review->comment }}</p>
+                                </div>
+                            @empty
+                                <div style="text-align: center; padding: 40px 10px; color: var(--color-text-light);">
+                                    <i class="fa-regular fa-comment-dots" style="font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.4;"></i>
+                                    Bu ürün için henüz değerlendirme yapılmamış. İlk yorumu siz yapın!
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- Right: Add Review Form -->
+                    <div style="background-color: var(--color-bg); padding: 25px; border-radius: 12px; border: 1px solid rgba(74, 93, 78, 0.05); align-self: flex-start;">
+                        <h4 style="font-family: var(--font-serif); font-size: 18px; color: var(--color-text); margin: 0 0 15px 0;">Yorum Yazın</h4>
+                        
+                        <form action="{{ route('products.review.store', $product->id) }}" method="POST">
+                            @csrf
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; font-size: 13.5px; font-weight: 600; color: var(--color-text); margin-bottom: 6px;">Puanınız *</label>
+                                <div class="star-rating" style="display: flex; gap: 8px; font-size: 26px; cursor: pointer; color: #D1D5DB;">
+                                    <i class="fa-solid fa-star star-btn" data-value="1"></i>
+                                    <i class="fa-solid fa-star star-btn" data-value="2"></i>
+                                    <i class="fa-solid fa-star star-btn" data-value="3"></i>
+                                    <i class="fa-solid fa-star star-btn" data-value="4"></i>
+                                    <i class="fa-solid fa-star star-btn" data-value="5"></i>
+                                </div>
+                                <input type="hidden" name="rating" id="rating-input" value="5" required>
+                            </div>
+
+                            <div style="margin-bottom: 15px;">
+                                <label for="review-name" style="display: block; font-size: 13.5px; font-weight: 600; color: var(--color-text); margin-bottom: 6px;">Adınız Soyadınız *</label>
+                                <input type="text" name="name" id="review-name" style="width: 100%; padding: 10px 14px; border: 1px solid rgba(74, 93, 78, 0.15); border-radius: 6px; font-size: 14.5px; outline: none; background-color: var(--color-white);" placeholder="Örn: Ayşe Yılmaz" required>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <label for="review-comment" style="display: block; font-size: 13.5px; font-weight: 600; color: var(--color-text); margin-bottom: 6px;">Yorumunuz *</label>
+                                <textarea name="comment" id="review-comment" rows="4" style="width: 100%; padding: 10px 14px; border: 1px solid rgba(74, 93, 78, 0.15); border-radius: 6px; font-size: 14.5px; outline: none; background-color: var(--color-white); resize: vertical;" placeholder="Sabun hakkındaki görüşleriniz..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600; border-radius: 6px; font-size: 14.5px; border: none; cursor: pointer;">
+                                Değerlendirmeyi Gönder
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -200,6 +317,61 @@
             const firstHeader = document.querySelector('.accordion-title');
             if (firstHeader) {
                 firstHeader.click();
+            }
+        });
+
+        // Star rating picker logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('.star-btn');
+            const ratingInput = document.getElementById('rating-input');
+            
+            if (stars.length > 0) {
+                // Set initial state (5 stars)
+                updateStars(5);
+                
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const rating = parseInt(this.getAttribute('data-value'));
+                        ratingInput.value = rating;
+                        updateStars(rating);
+                    });
+                    
+                    // Hover effect preview
+                    star.addEventListener('mouseover', function() {
+                        const rating = parseInt(this.getAttribute('data-value'));
+                        previewStars(rating);
+                    });
+                });
+                
+                const starContainer = document.querySelector('.star-rating');
+                if (starContainer) {
+                    starContainer.addEventListener('mouseleave', () => {
+                        const currentRating = parseInt(ratingInput.value);
+                        updateStars(currentRating);
+                    });
+                }
+            }
+            
+            function updateStars(rating) {
+                stars.forEach(star => {
+                    const val = parseInt(star.getAttribute('data-value'));
+                    if (val <= rating) {
+                        star.style.color = '#FBBF24';
+                    } else {
+                        star.style.color = '#D1D5DB';
+                    }
+                });
+            }
+            
+            function previewStars(rating) {
+                stars.forEach(star => {
+                    const val = parseInt(star.getAttribute('data-value'));
+                    if (val <= rating) {
+                        star.style.color = '#F59E0B'; // Slightly darker yellow on hover
+                    } else {
+                        star.style.color = '#D1D5DB';
+                    }
+                });
             }
         });
     </script>

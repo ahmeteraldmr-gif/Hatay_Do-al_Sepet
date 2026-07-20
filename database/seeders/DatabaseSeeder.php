@@ -233,8 +233,25 @@ class DatabaseSeeder extends Seeder
             ]
         ];
 
+        // Clear old reviews first to avoid duplicates when running seeds
+        \App\Models\Review::query()->delete();
+
         foreach ($products as $p) {
-            Product::create($p);
+            $productObj = Product::create($p);
+            
+            // Add a couple of sample reviews for each product to show it off
+            \App\Models\Review::create([
+                'product_id' => $productObj->id,
+                'name' => 'Ayşe Yılmaz',
+                'rating' => 5,
+                'comment' => 'Harika bir ürün, kesinlikle tavsiye ederim. Doğallığı kokusundan belli oluyor.'
+            ]);
+            \App\Models\Review::create([
+                'product_id' => $productObj->id,
+                'name' => 'Mehmet Demir',
+                'rating' => 4,
+                'comment' => 'Kargo hızlı geldi. Paketleme çok özenliydi. Cildimi yumuşacık yaptı.'
+            ]);
         }
     }
 }
