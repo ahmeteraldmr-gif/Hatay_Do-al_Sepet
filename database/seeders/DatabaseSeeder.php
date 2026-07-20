@@ -46,22 +46,58 @@ class DatabaseSeeder extends Seeder
         // 3. Seed Categories
         $catDefne = Category::updateOrCreate(
             ['slug' => 'defne-sabunlari'],
-            ['name' => 'Defne Sabunları', 'emoji' => '🍃', 'description' => 'Yabani defne ağacı yağı ile zeytinyağının birleşimi. Saç ve cilt şifası.']
+            [
+                'name' => 'Defne Sabunları', 
+                'emoji' => '🍃', 
+                'description' => 'Yabani defne ağacı yağı ile zeytinyağının birleşimi. Saç ve cilt şifası.',
+                'seo_title' => 'Hakiki Hatay Defne Sabunları | El Yapımı Defne Sabunu',
+                'seo_description' => 'Hatay\'ın meşhur yabani defne meyvesi yağı ve saf soğuk sıkım zeytinyağı ile hazırlanan geleneksel el yapımı defne sabunlarımızı keşfedin.',
+                'og_title' => 'Hatay\'ın Şifalı El Yapımı Defne Sabunları',
+                'og_description' => 'Saç ve cilt döküntüleri, egzama ve kepeğe karşı etkili asırlık Hatay defne sabunları.',
+                'noindex' => false
+            ]
         );
 
         $catZeytin = Category::updateOrCreate(
             ['slug' => 'zeytinyagi-sabunlari'],
-            ['name' => 'Zeytinyağı Sabunları', 'emoji' => '🫒', 'description' => '%100 saf Hatay zeytinyağından üretilen, cildi kurutmayan besleyici sabunlar.']
+            [
+                'name' => 'Zeytinyağı Sabunları', 
+                'emoji' => '🫒', 
+                'description' => '%100 saf Hatay zeytinyağından üretilen, cildi kurutmayan besleyici sabunlar.',
+                'seo_title' => 'Saf Zeytinyağlı Sabun Çeşitleri | %100 Doğal Hatay Sabunu',
+                'seo_description' => '%100 saf sızma zeytinyağından odun ateşinde üretilen, cildinizi kurutmadan nemlendiren geleneksel Hatay zeytinyağlı sabunları.',
+                'og_title' => '%100 Saf Soğuk Sıkım Zeytinyağlı Sabunlar',
+                'og_description' => 'Kimyasal katkısız, bebek cildine dahi uygun besleyici ve nemlendirici zeytinyağı sabunu.',
+                'noindex' => false
+            ]
         );
 
         $catOzel = Category::updateOrCreate(
             ['slug' => 'bitkisel-ve-kokulu-sabunlar'],
-            ['name' => 'Aromaterapi Serisi', 'emoji' => '🌸', 'description' => 'Bitkisel özler ve doğal uçucu yağlarla zenginleştirilmiş özel kokulu sabunlar.']
+            [
+                'name' => 'Aromaterapi Serisi', 
+                'emoji' => '🌸', 
+                'description' => 'Bitkisel özler ve doğal uçucu yağlarla zenginleştirilmiş özel kokulu sabunlar.',
+                'seo_title' => 'Doğal Aromaterapi Sabunları & Bitkisel Özlü Sabun',
+                'seo_description' => 'Lavanta, kekik, aloe vera gibi şifalı bitkilerin uçucu yağları ve bitki özleriyle zenginleştirilmiş aromaterapi el yapımı sabun serimiz.',
+                'og_title' => 'Aromaterapi ve Bitkisel El Yapımı Sabun Serisi',
+                'og_description' => 'Bitkisel yağlar ve özlerle zenginleştirilmiş şifalı aromaterapi sabunlarımız.',
+                'noindex' => false
+            ]
         );
 
         $catKampanya = Category::updateOrCreate(
             ['slug' => 'kampanyalar'],
-            ['name' => 'Kampanyalar', 'emoji' => '🎁', 'description' => 'Özel indirimli doğal setler ve dönemsel kampanyalı ürünlerimiz.']
+            [
+                'name' => 'Kampanyalar', 
+                'emoji' => '🎁', 
+                'description' => 'Özel indirimli doğal setler ve dönemsel kampanyalı ürünlerimiz.',
+                'seo_title' => 'İndirimli Doğal Bakım Setleri | Hatay Doğal Sepet Kampanyaları',
+                'seo_description' => 'Doğal zeytinyağlı şampuanlar, el yapımı sabunlar ve cilt bakım ürünlerini bir arada sunan avantajlı hediye setleri ve kampanyalar.',
+                'og_title' => 'Avantajlı Doğal Bakım Hediye Setleri & Kampanyalar',
+                'og_description' => 'Komple saç ve cilt bakımı sunan %100 doğal içerikli hediye setlerinde özel indirimler.',
+                'noindex' => false
+            ]
         );
 
         // Delete all existing products first to clean up old photos
@@ -79,7 +115,13 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Temiz cilde dairesel hareketlerle masaj yaparak uygulayın.',
                 'price' => 250.00,
                 'image_path' => 'assets/cilt_bakim_kremi.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can Doğal Cilt Bakım Kremi | Nemlendirici Aloe Vera',
+                'seo_description' => 'Aloe vera özü ve bitkisel nemlendiriciler içeren, cildi derinlemesine besleyen ve ipeksi yumuşaklık veren el yapımı cilt bakım kremi.',
+                'og_title' => 'M. Çakır Can Bitkisel & Doğal Cilt Bakım Kremi',
+                'og_description' => 'Cildin nem dengesini koruyan ve tazeleyen aloe veralı doğal cilt bakım kremi.',
+                'og_image' => null,
+                'noindex' => false
             ],
             [
                 'category_id' => $catKampanya->id,
@@ -91,7 +133,13 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Ürünlerin üzerinde belirtilen günlük kullanım talimatlarına göre uygulayınız.',
                 'price' => 1000.00,
                 'image_path' => 'assets/guzellik_seti.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can Doğal Güzellik Seti | Ücretsiz Kargo Avantajlı Paket',
+                'seo_description' => 'El yapımı sabun, şampuan, cilt bakım kremi ve saç bakım yağından oluşan, komple doğal bakım sunan ücretsiz kargolu avantajlı hediye seti.',
+                'og_title' => 'M. Çakır Can - Komple Geleneksel Güzellik ve Bakım Seti',
+                'og_description' => 'Kargo dahil 1000 TL avantajlı fiyatıyla komple saç ve cilt bakımı sunan özel doğal sepet seti.',
+                'og_image' => null,
+                'noindex' => false
             ],
             [
                 'category_id' => $catZeytin->id,
@@ -103,11 +151,17 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Islak saça köpürterek uygulayın, durulayın.',
                 'price' => 300.00,
                 'image_path' => 'assets/lavanta_sampuan.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can El Yapımı Lavanta & Aloe Vera Şampuanı',
+                'seo_description' => 'Zeytinyağı tabanlı, saf lavanta ve aloe vera jeli ile el yapımı, saç derisini yatıştıran ve dökülmeyi önleyen şampuan.',
+                'og_title' => 'Lavanta & Aloe Vera Özlü El Yapımı Doğal Şampuan',
+                'og_description' => 'Zeytinyağı tabanlı doğal formülü ve lavanta kokusuyla saç derisine dost temizlik.',
+                'og_image' => null,
+                'noindex' => false
             ],
             [
                 'category_id' => $catZeytin->id,
-                'name' => 'M. Çakır Can - El Yapımı Yeşil Elma & Aloe Vera Şampuanı',
+                'name' => 'M. Çakır Can - El Yapımı Yeşil Elma & Aloe Vera Şampuani',
                 'slug' => 'm-cakir-can-el-yapimi-yesil-elma-aloe-vera-sampuani',
                 'description' => 'Yeşil elma ve aloe vera özleriyle zenginleştirilmiş, zeytinyağı tabanlı doğal el yapımı şampuan.',
                 'ingredients' => 'Saf zeytinyağı, yeşil elma özü, aloe vera jeli, bitkisel temizleyiciler.',
@@ -115,7 +169,13 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Islak saça köpürterek uygulayın, durulayın.',
                 'price' => 300.00,
                 'image_path' => 'assets/elma_sampuan.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can El Yapımı Yeşil Elma & Aloe Vera Şampuanı',
+                'seo_description' => 'Zeytinyağı tabanlı, doğal yeşil elma aromalı ve aloe vera özlü saçları besleyen ve parlaklık veren el yapımı şampuan.',
+                'og_title' => 'Yeşil Elma & Aloe Vera Özlü El Yapımı Doğal Şampuan',
+                'og_description' => 'Yeşil elmanın canlandırıcı ferahlığı ve zeytinyağının besleyici gücü saçlarınızda.',
+                'og_image' => null,
+                'noindex' => false
             ],
             [
                 'category_id' => $catOzel->id,
@@ -127,7 +187,13 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Saç diplerine masaj yaparak uygulayın ve durulayın.',
                 'price' => 200.00,
                 'image_path' => 'assets/sac_bakim_yagi.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can Bitkisel Saç Bakım Yağı | Dökülme Karşıtı',
+                'seo_description' => 'Doğal bitkisel yağlar ve vitaminlerle saç köklerini besleyen, kırılmaları önleyen ve hızlı uzama sağlayan saç bakım ürünü.',
+                'og_title' => 'M. Çakır Can - Doğal & Bitkisel Saç Bakım Yağı',
+                'og_description' => 'Saç köklerini besleyen, parlaklık kazandıran ve dökülmeyi önleyen saç bakım yağı.',
+                'og_image' => null,
+                'noindex' => false
             ],
             [
                 'category_id' => $catDefne->id,
@@ -139,7 +205,13 @@ class DatabaseSeeder extends Seeder
                 'usage' => 'Islak cilde köpürterek uygulayın, durulayın.',
                 'price' => 400.00,
                 'image_path' => 'assets/defne_aloe_vera.jpg',
-                'in_stock' => true
+                'in_stock' => true,
+                'seo_title' => 'Sabunmuş Defne & Aloe Veralı El Yapımı Zeytinyağı Sabunu',
+                'seo_description' => 'Geleneksel soğuk sıkım zeytinyağı, defne yağı ve aloe vera jeli ile elde kesilen, nemlendirici ve gözenek arındırıcı el yapımı sabun.',
+                'og_title' => 'Sabunmuş - Defne & Aloe Veralı Geleneksel Zeytinyağı Sabunu',
+                'og_description' => 'Cildi kurutmadan temizleyen, defne yağıyla arındıran el yapımı kare sabun.',
+                'og_image' => null,
+                'noindex' => false
             ]
         ];
 
