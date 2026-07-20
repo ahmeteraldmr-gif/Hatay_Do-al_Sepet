@@ -1,6 +1,29 @@
 @extends('layouts.app')
 
-@section('title', 'Ürünlerimiz')
+@php
+    $pageTitle = 'Ürünlerimiz';
+    $metaDesc = 'Hatay\'ın geleneksel el yapımı defne sabunları, zeytinyağı sabunları, doğal şampuan ve cilt bakım setleri.';
+    $noIndex = false;
+    $ogTitle = null;
+    $ogDesc = null;
+    $ogImg = null;
+
+    if (isset($category)) {
+        $pageTitle = $category->seo_title ?: $category->name . ' Ürünleri';
+        $metaDesc = $category->seo_description ?: $category->description;
+        $noIndex = $category->noindex;
+        $ogTitle = $category->og_title ?: $category->seo_title ?: $category->name;
+        $ogDesc = $category->og_description ?: $category->seo_description ?: $category->description;
+        $ogImg = $category->og_image ? asset($category->og_image) : null;
+    }
+@endphp
+
+@section('title', $pageTitle)
+@section('meta_description', $metaDesc)
+@section('noindex', $noIndex ? 'true' : '')
+@section('og_title', $ogTitle)
+@section('og_description', $ogDesc)
+@section('og_image', $ogImg)
 
 @section('content')
 
@@ -19,8 +42,8 @@
             <!-- Kategori Filtreleri -->
             <div class="filter-container">
                 <button class="filter-btn {{ !request()->has('category') ? 'active' : '' }}" data-filter="all">🌿 Tüm Sabunlar</button>
-                @foreach(\App\Models\Category::all() as $category)
-                    <button class="filter-btn {{ request()->category == $category->slug ? 'active' : '' }}" data-filter="{{ $category->slug }}">{{ $category->emoji }} {{ $category->name }}</button>
+                @foreach(\App\Models\Category::all() as $cat)
+                    <button class="filter-btn {{ request()->category == $cat->slug ? 'active' : '' }}" data-filter="{{ $cat->slug }}">{{ $cat->emoji }} {{ $cat->name }}</button>
                 @endforeach
             </div>
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'İletişim')
+@section('meta_description', 'Hatay Doğal Sepet iletişim sayfası. Doğal sabun siparişleriniz ve sorularınız için bizimle iletişime geçin.')
 
 @section('content')
 

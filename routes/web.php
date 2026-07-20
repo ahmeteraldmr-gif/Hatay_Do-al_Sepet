@@ -12,6 +12,7 @@ Route::get('/urunler/{slug}', [ProductController::class, 'show'])->name('product
 Route::get('/hikayemiz', [HomeController::class, 'about'])->name('about');
 Route::get('/iletisim', [HomeController::class, 'contact'])->name('contact');
 Route::post('/iletisim', [HomeController::class, 'contactSubmit'])->name('contact.submit');
+Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
 // Admin Guest Routes
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
@@ -35,6 +36,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Categories CRUD
     Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
     Route::post('/categories/store', [AdminController::class, 'categoryStore'])->name('categories.store');
+    Route::post('/categories/update/{id}', [AdminController::class, 'categoryUpdate'])->name('categories.update');
     Route::post('/categories/delete/{id}', [AdminController::class, 'categoryDelete'])->name('categories.delete');
 
     // Messages Inbox

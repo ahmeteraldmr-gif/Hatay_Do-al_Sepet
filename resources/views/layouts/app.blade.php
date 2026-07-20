@@ -6,6 +6,97 @@
     <title>@yield('title') | {{ \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet') }}</title>
     <meta name="description" content="@yield('meta_description', \App\Models\Setting::getValue('site_tagline', 'Hatay\'ın geleneksel yöntemleriyle sızma zeytinyağı ve defne yağından üretilen el yapımı doğal sabunları keşfedin.'))">
     
+    @if(trim($__env->yieldContent('noindex')))
+        <meta name="robots" content="noindex, nofollow">
+    @else
+        <meta name="robots" content="index, follow">
+    @endif
+    
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('og_title', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))">
+    <meta property="og:description" content="@yield('og_description', \App\Models\Setting::getValue('site_tagline', 'Hatay\'ın geleneksel yöntemleriyle el yapımı doğal sabunları.'))">
+    <meta property="og:image" content="@yield('og_image', asset('assets/banner.png'))">
+    <meta property="og:site_name" content="{{ \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet') }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="@yield('og_title', \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet'))">
+    <meta name="twitter:description" content="@yield('og_description', \App\Models\Setting::getValue('site_tagline', 'Hatay\'ın geleneksel yöntemleriyle el yapımı doğal sabunları.'))">
+    <meta name="twitter:image" content="@yield('og_image', asset('assets/banner.png'))">
+
+    <!-- Organization & Website Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
+      "name": "{{ \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet') }}",
+      "url": "{{ url('/') }}",
+      "logo": "{{ asset('assets/banner.png') }}",
+      "contactPoint": {
+        "@@type": "ContactPoint",
+        "telephone": "+{{ \App\Models\Setting::getValue('whatsapp_number', '905427352994') }}",
+        "contactType": "customer service"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
+      "name": "{{ \App\Models\Setting::getValue('site_title', 'Hatay Doğal Sepet') }}",
+      "url": "{{ url('/') }}",
+      "potentialAction": {
+        "@@type": "SearchAction",
+        "target": "{{ url('/urunler') }}?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Breadcrumbs Structured Data -->
+    @php
+        $breadcrumbs = [
+            ["@type" => "ListItem", "position" => 1, "name" => "Ana Sayfa", "item" => url('/')]
+        ];
+        if (request()->routeIs('products.show') && isset($product)) {
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 2, "name" => "Ürünlerimiz", "item" => route('products.index')];
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 3, "name" => $product->category->name, "item" => route('products.index', ['category' => $product->category->slug])];
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 4, "name" => $product->name, "item" => url()->current()];
+        } elseif (request()->routeIs('products.index')) {
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 2, "name" => "Ürünlerimiz", "item" => url()->current()];
+            if (request()->has('category') && isset($category)) {
+                $breadcrumbs[] = ["@type" => "ListItem", "position" => 3, "name" => $category->name, "item" => url()->current()];
+            }
+        } elseif (request()->routeIs('about')) {
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 2, "name" => "Hikayemiz", "item" => url()->current()];
+        } elseif (request()->routeIs('contact')) {
+            $breadcrumbs[] = ["@type" => "ListItem", "position" => 2, "name" => "İletişim", "item" => url()->current()];
+        }
+    @endphp
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "BreadcrumbList",
+      "itemListElement": [
+        @foreach($breadcrumbs as $bc)
+          {
+            "@@type": "ListItem",
+            "position": {{ $bc['position'] }},
+            "name": "{{ $bc['name'] }}",
+            "item": "{{ $bc['item'] }}"
+          }{{ !$loop->last ? ',' : '' }}
+        @endforeach
+      ]
+    }
+    </script>
+    
+    
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     

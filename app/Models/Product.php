@@ -17,12 +17,19 @@ class Product extends Model
         'usage',
         'price',
         'image_path',
-        'in_stock'
+        'in_stock',
+        'seo_title',
+        'seo_description',
+        'og_title',
+        'og_description',
+        'og_image',
+        'noindex'
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'in_stock' => 'boolean',
+        'noindex' => 'boolean',
     ];
 
     public function category(): BelongsTo

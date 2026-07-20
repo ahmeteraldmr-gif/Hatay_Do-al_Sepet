@@ -81,6 +81,11 @@ class AdminController extends Controller
             'benefits' => 'nullable|string',
             'usage' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ]);
 
         $imagePath = null;
@@ -89,6 +94,14 @@ class AdminController extends Controller
             $imageName = time() . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
             $imagePath = 'images/' . $imageName;
+        }
+
+        $ogImagePath = null;
+        if ($request->hasFile('og_image')) {
+            $ogImage = $request->file('og_image');
+            $ogImageName = 'og_' . time() . '_' . Str::slug($request->name) . '.' . $ogImage->getClientOriginalExtension();
+            $ogImage->move(public_path('images'), $ogImageName);
+            $ogImagePath = 'images/' . $ogImageName;
         }
 
         Product::create([
@@ -102,6 +115,12 @@ class AdminController extends Controller
             'usage' => $request->usage,
             'image_path' => $imagePath,
             'in_stock' => $request->has('in_stock') ? true : false,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'og_image' => $ogImagePath,
+            'noindex' => $request->has('noindex') ? true : false,
         ]);
 
         return redirect()->route('admin.products')->with('success', 'Doğal sabun başarıyla kataloğa eklendi.');
@@ -121,6 +140,11 @@ class AdminController extends Controller
             'benefits' => 'nullable|string',
             'usage' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ]);
 
         $imagePath = $product->image_path;
@@ -138,6 +162,18 @@ class AdminController extends Controller
             $imagePath = 'images/' . $imageName;
         }
 
+        $ogImagePath = $product->og_image;
+        if ($request->hasFile('og_image')) {
+            if ($product->og_image && File::exists(public_path($product->og_image))) {
+                File::delete(public_path($product->og_image));
+            }
+
+            $ogImage = $request->file('og_image');
+            $ogImageName = 'og_' . time() . '_' . Str::slug($request->name) . '.' . $ogImage->getClientOriginalExtension();
+            $ogImage->move(public_path('images'), $ogImageName);
+            $ogImagePath = 'images/' . $ogImageName;
+        }
+
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
@@ -149,6 +185,12 @@ class AdminController extends Controller
             'usage' => $request->usage,
             'image_path' => $imagePath,
             'in_stock' => $request->has('in_stock') ? true : false,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'og_image' => $ogImagePath,
+            'noindex' => $request->has('noindex') ? true : false,
         ]);
 
         return redirect()->route('admin.products')->with('success', 'Ürün detayları başarıyla güncellendi.');
@@ -214,8 +256,13 @@ class AdminController extends Controller
     // Categories list page
     public function categories(Request $request)
     {
+        $editCategory = null;
+        if ($request->has('edit')) {
+            $editCategory = Category::findOrFail($request->edit);
+        }
+
         $categories = Category::withCount('products')->get();
-        return view('admin.categories', compact('categories'));
+        return view('admin.categories', compact('categories', 'editCategory'));
     }
 
     // Store new category
@@ -225,22 +272,91 @@ class AdminController extends Controller
             'name' => 'required|string|max:255|unique:categories,name',
             'emoji' => 'required|string|max:10',
             'description' => 'nullable|string|max:500',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ]);
+
+        $ogImagePath = null;
+        if ($request->hasFile('og_image')) {
+            $ogImage = $request->file('og_image');
+            $ogImageName = 'og_cat_' . time() . '_' . Str::slug($request->name) . '.' . $ogImage->getClientOriginalExtension();
+            $ogImage->move(public_path('images'), $ogImageName);
+            $ogImagePath = 'images/' . $ogImageName;
+        }
 
         Category::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'emoji' => $request->emoji,
             'description' => $request->description,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'og_image' => $ogImagePath,
+            'noindex' => $request->has('noindex') ? true : false,
         ]);
 
         return redirect()->route('admin.categories')->with('success', 'Kategori başarıyla oluşturuldu.');
+    }
+
+    // Update existing category
+    public function categoryUpdate(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'emoji' => 'required|string|max:10',
+            'description' => 'nullable|string|max:500',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string',
+            'og_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+        ]);
+
+        $ogImagePath = $category->og_image;
+        if ($request->hasFile('og_image')) {
+            if ($category->og_image && File::exists(public_path($category->og_image))) {
+                File::delete(public_path($category->og_image));
+            }
+
+            $ogImage = $request->file('og_image');
+            $ogImageName = 'og_cat_' . time() . '_' . Str::slug($request->name) . '.' . $ogImage->getClientOriginalExtension();
+            $ogImage->move(public_path('images'), $ogImageName);
+            $ogImagePath = 'images/' . $ogImageName;
+        }
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'emoji' => $request->emoji,
+            'description' => $request->description,
+            'seo_title' => $request->seo_title,
+            'seo_description' => $request->seo_description,
+            'og_title' => $request->og_title,
+            'og_description' => $request->og_description,
+            'og_image' => $ogImagePath,
+            'noindex' => $request->has('noindex') ? true : false,
+        ]);
+
+        return redirect()->route('admin.categories')->with('success', 'Kategori detayları başarıyla güncellendi.');
     }
 
     // Delete category
     public function categoryDelete($id)
     {
         $category = Category::findOrFail($id);
+        
+        // Delete og_image file if exists
+        if ($category->og_image && File::exists(public_path($category->og_image))) {
+            File::delete(public_path($category->og_image));
+        }
+
         $category->delete();
 
         return redirect()->route('admin.categories')->with('success', 'Kategori ve bu kategoriye ait tüm ürünler silindi.');

@@ -1,6 +1,38 @@
 @extends('layouts.app')
 
-@section('title', $product->name)
+@section('title', $product->seo_title ?: $product->name)
+
+@section('meta_description', $product->seo_description ?: Str::limit(strip_tags($product->description), 150))
+
+@if($product->noindex)
+    @section('noindex', 'true')
+@endif
+
+@section('og_type', 'product')
+@section('og_title', $product->og_title ?: $product->seo_title ?: $product->name)
+@section('og_description', $product->og_description ?: $product->seo_description ?: Str::limit(strip_tags($product->description), 150))
+@section('og_image', $product->og_image ? asset($product->og_image) : asset($product->image_path))
+
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org/",
+  "@@type": "Product",
+  "name": "{{ $product->name }}",
+  "image": [
+    "{{ asset($product->image_path) }}"
+  ],
+  "description": "{{ strip_tags($product->description) }}",
+  "sku": "product-{{ $product->id }}",
+  "offers": {
+    "@@type": "Offer",
+    "url": "{{ url()->current() }}",
+    "priceCurrency": "TRY",
+    "price": "{{ $product->price }}",
+    "availability": "{{ $product->in_stock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}",
+    "priceValidUntil": "2027-12-31"
+  }
+}
+</script>
 
 @section('content')
 

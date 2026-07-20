@@ -12,6 +12,7 @@ class ProductController extends Controller
     {
         $query = Product::with('category');
         
+        $category = null;
         if ($request->has('category')) {
             $category = Category::where('slug', $request->category)->first();
             if ($category) {
@@ -22,7 +23,7 @@ class ProductController extends Controller
         $products = $query->orderBy('name', 'asc')
                           ->paginate(9);
                           
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'category'));
     }
 
     public function show($slug)

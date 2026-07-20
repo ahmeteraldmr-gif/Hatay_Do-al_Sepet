@@ -73,7 +73,54 @@
                     </div>
                 </div>
 
-                <div class="form-group form-checkbox" style="margin-top: 10px;">
+                <div class="form-card" style="margin-top: 30px; padding: 20px; border: 1px solid #D1D5DB; border-radius: 12px; background-color: #F9FAFB;">
+                    <h4 style="font-size: 15px; font-weight: 600; color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-magnifying-glass"></i> SEO & Arama Motoru Ayarları
+                    </h4>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="seo_title" class="form-label">SEO Başlığı (Meta Title)</label>
+                            <input type="text" name="seo_title" id="seo_title" class="form-control" value="{{ old('seo_title', $editProduct->seo_title) }}" placeholder="Boş bırakılırsa ürün adı kullanılır">
+                        </div>
+                        <div class="form-group">
+                            <label for="seo_description" class="form-label">SEO Açıklaması (Meta Description)</label>
+                            <textarea name="seo_description" id="seo_description" class="form-control" rows="2" placeholder="Boş bırakılırsa ürün açıklamasının ilk 160 karakteri kullanılır">{{ old('seo_description', $editProduct->seo_description) }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="og_title" class="form-label">Sosyal Medya Başlığı (Open Graph Title)</label>
+                            <input type="text" name="og_title" id="og_title" class="form-control" value="{{ old('og_title', $editProduct->og_title) }}" placeholder="Boş bırakılırsa SEO başlığı kullanılır">
+                        </div>
+                        <div class="form-group">
+                            <label for="og_description" class="form-label">Sosyal Medya Açıklaması (Open Graph Description)</label>
+                            <textarea name="og_description" id="og_description" class="form-control" rows="2" placeholder="Boş bırakılırsa SEO açıklaması kullanılır">{{ old('og_description', $editProduct->og_description) }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="og_image" class="form-label">Paylaşım Görseli (Open Graph Image)</label>
+                            <input type="file" name="og_image" id="og_image" class="form-control" accept="image/*">
+                            @if($editProduct->og_image)
+                                <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <img src="{{ asset($editProduct->og_image) }}" alt="Mevcut OG Görsel" style="width: 80px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border);">
+                                    <span style="font-size: 11px; color: var(--text-muted);">Mevcut Sosyal Paylaşım Görseli</span>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="form-group form-checkbox" style="align-items: flex-end; padding-bottom: 15px; margin-top: 0;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="noindex" id="noindex" value="1" {{ old('noindex', $editProduct->noindex) ? 'checked' : '' }}>
+                                <label for="noindex" class="form-label" style="margin-bottom: 0;">Bu Ürünü Arama Motorlarında Gizle (noindex)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-checkbox" style="margin-top: 20px;">
                     <input type="checkbox" name="in_stock" id="in_stock" value="1" {{ old('in_stock', $editProduct->in_stock) ? 'checked' : '' }}>
                     <label for="in_stock" class="form-label" style="margin-bottom: 0;">Ürün Stokta Var</label>
                 </div>
@@ -149,7 +196,48 @@
                     </div>
                 </div>
 
-                <div class="form-group form-checkbox" style="margin-top: 10px;">
+                <div class="form-card" style="margin-top: 30px; padding: 20px; border: 1px solid #D1D5DB; border-radius: 12px; background-color: #F9FAFB;">
+                    <h4 style="font-size: 15px; font-weight: 600; color: var(--primary-dark); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-magnifying-glass"></i> SEO & Arama Motoru Ayarları
+                    </h4>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="seo_title" class="form-label">SEO Başlığı (Meta Title)</label>
+                            <input type="text" name="seo_title" id="seo_title" class="form-control" value="{{ old('seo_title') }}" placeholder="Boş bırakılırsa ürün adı kullanılır">
+                        </div>
+                        <div class="form-group">
+                            <label for="seo_description" class="form-label">SEO Açıklaması (Meta Description)</label>
+                            <textarea name="seo_description" id="seo_description" class="form-control" rows="2" placeholder="Boş bırakılırsa ürün açıklamasının ilk 160 karakteri kullanılır">{{ old('seo_description') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="og_title" class="form-label">Sosyal Medya Başlığı (Open Graph Title)</label>
+                            <input type="text" name="og_title" id="og_title" class="form-control" value="{{ old('og_title') }}" placeholder="Boş bırakılırsa SEO başlığı kullanılır">
+                        </div>
+                        <div class="form-group">
+                            <label for="og_description" class="form-label">Sosyal Medya Açıklaması (Open Graph Description)</label>
+                            <textarea name="og_description" id="og_description" class="form-control" rows="2" placeholder="Boş bırakılırsa SEO açıklaması kullanılır">{{ old('og_description') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="og_image" class="form-label">Paylaşım Görseli (Open Graph Image)</label>
+                            <input type="file" name="og_image" id="og_image" class="form-control" accept="image/*">
+                        </div>
+                        <div class="form-group form-checkbox" style="align-items: flex-end; padding-bottom: 15px; margin-top: 0;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" name="noindex" id="noindex" value="1" {{ old('noindex') ? 'checked' : '' }}>
+                                <label for="noindex" class="form-label" style="margin-bottom: 0;">Bu Ürünü Arama Motorlarında Gizle (noindex)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-checkbox" style="margin-top: 20px;">
                     <input type="checkbox" name="in_stock" id="in_stock" value="1" checked>
                     <label for="in_stock" class="form-label" style="margin-bottom: 0;">Ürün Stokta Var</label>
                 </div>

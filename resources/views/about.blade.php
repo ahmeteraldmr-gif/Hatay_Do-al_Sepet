@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Hikayemiz')
+@section('meta_description', 'Hatay\'ın kadim gelenekleriyle, nesillerdir aktarılan el yapımı defne ve zeytinyağı sabunu üretim hikayemiz.')
 
 @section('content')
 
