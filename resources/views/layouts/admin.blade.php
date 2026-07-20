@@ -111,6 +111,17 @@
                         <i class="fa-solid fa-circle-xmark"></i> {{ session('error') }}
                     </div>
                 @endif
+
+                @if($errors->any())
+                    <div class="alert alert-danger" style="margin-bottom: 20px;">
+                        <i class="fa-solid fa-circle-xmark" style="margin-bottom: 10px;"></i>
+                        <ul style="margin: 0; padding-left: 20px; font-size: 14px; font-weight: 500;">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 
                 @yield('content')
             </main>
