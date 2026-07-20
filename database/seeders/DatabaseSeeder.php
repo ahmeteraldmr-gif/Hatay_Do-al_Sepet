@@ -178,6 +178,24 @@ class DatabaseSeeder extends Seeder
                 'noindex' => false
             ],
             [
+                'category_id' => $catKampanya->id,
+                'name' => 'M. Çakır Can - Özel İkili Bakım Seti',
+                'slug' => 'm-cakir-can-ozel-ikili-bakim-seti',
+                'description' => 'M. Çakır Can el yapımı zeytinyağı tabanlı Lavanta & Aloe Vera Şampuanı ve saf bitki özlü Saç Bakım Ürünü\'nden oluşan, Dörtyol Hatay üretimi özel ikili bakım seti.',
+                'ingredients' => 'Lavanta & Aloe Vera Şampuanı (Saf zeytinyağı, lavanta özü, aloe vera jeli), Saç Bakım Ürünü (Doğal bitki özleri, saf bitkisel yağlar).',
+                'benefits' => 'Zeytinyağı tabanlı formül. Saf bitki özleri ile zengin içerik. Cilde ve saça dost el yapımı bakım.',
+                'usage' => 'Şampuanı ıslak saça köpürterek uygulayıp durulayın. Saç bakım yağını saç diplerine masaj yaparak uygulayıp durulayın.',
+                'price' => 500.00,
+                'image_path' => 'assets/ikili_bakim_seti.jpg',
+                'in_stock' => true,
+                'seo_title' => 'M. Çakır Can Özel İkili Bakım Seti | Sadece 500 TL',
+                'seo_description' => 'Zeytinyağı tabanlı el yapımı lavanta şampuanı ve bitkisel saç bakım yağından oluşan Hatay Dörtyol üretimi avantajlı ikili bakım seti.',
+                'og_title' => 'M. Çakır Can - Özel İkili Bakım Seti (Şampuan & Saç Yağı)',
+                'og_description' => 'Sadece 500 TL fiyatıyla cilde ve saça dost saf bitki özlü ikili bakım seti.',
+                'og_image' => null,
+                'noindex' => false
+            ],
+            [
                 'category_id' => $catOzel->id,
                 'name' => 'M. Çakır Can - Saç Bakım Ürünü',
                 'slug' => 'm-cakir-can-sac-bakim-urunu',
