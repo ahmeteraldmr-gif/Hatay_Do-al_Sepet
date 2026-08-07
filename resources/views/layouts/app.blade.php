@@ -14,6 +14,11 @@
     
     <link rel="canonical" href="{{ url()->current() }}">
 
+    <!-- Favicon & Site Icons for Browser & Google Search Results -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
